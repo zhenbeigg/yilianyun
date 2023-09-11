@@ -3,7 +3,7 @@
  * @author: 布尔
  * @name: 服务类
  * @desc: 介绍
- * @LastEditTime: 2023-09-11 17:43:58
+ * @LastEditTime: 2023-09-11 20:36:11
  * @FilePath: \yilianyun\src\Service.php
  */
 
@@ -28,22 +28,18 @@ class Xzqh
 
     public function get_access_token($param)
     {
-        if (!\PhalApi\DI()->cache->get($param->client_id . "yilianyun_access_token")) {
-            $curl = new CURL;
+        if (!redis()->get($param->client_id . "_yilianyun_access_token")) {
             $timestamp = time();
-            $uuid = self::get_uuid4($param);
-            $sign = md5($param->client_id . $timestamp . $param->client_secret);
-            $data = array("grant_type" => "client_credentials", "scope" => "all", "timestamp" => $timestamp, "id" => $uuid, "client_id" => $param->client_id, "sign" => $sign, "id" => $uuid, "timestamp" => $timestamp);
-            $rs = $curl->post("https://open-api.10ss.net/oauth/oauth", $data);
+            $data = array("grant_type" => "client_credentials", "scope" => "all", "timestamp" => $timestamp, "client_id" => env('YILIANYUN_CLIENT_ID'), "sign" => md5(env('YILIANYUN_CLIENT_ID') . $timestamp . env('YILIANYUN_CLIENT_SECRET')), "id" => $this->get_uuid4($param));
+            $rs = $this->GuzzleHttp->post($this->url . "/oauth/oauth", $data);
             if ($rs["error"] == 0) {
-                \PhalApi\DI()->cache->set($param->client_id . "yilianyun_access_token", $rs['body']["access_token"], $rs['body']["expires_in"]);
+                redis()->set($param->client_id . "_yilianyun_access_token", $rs['body']["access_token"], $rs['body']["expires_in"]);
                 $access_token = $rs['body']["access_token"];
             } else {
-                \PhalApi\DI()->logger->error($param->client_id . "yilianyun_access_token", $rs);
-                throw new BadRequestException($rs["error_description"], 1);
+                error($rs["error"], $rs["error_description"]);
             }
         } else {
-            $access_token = \PhalApi\DI()->cache->get($param->client_id . "yilianyun_access_token");
+            $access_token = redis()->get($param->client_id . "_yilianyun_access_token");
         }
         return $access_token;
     }
@@ -60,7 +56,7 @@ class Xzqh
      * @name: 方法名
      * @param {*} $param
      * @return {*}
-     */    
+     */
     public function get_uuid4($param)
     {
         mt_srand((float)microtime() * 10000);

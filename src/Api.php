@@ -1,10 +1,10 @@
 <?php
 /*
  * @author: 布尔
- * @name: 打印机
+ * @name: 接口类
  * @desc: 介绍
- * @LastEditTime: 2023-09-11 17:40:53
- * @FilePath: \yilianyun\src\Printer.php
+ * @LastEditTime: 2023-09-11 20:31:23
+ * @FilePath: \yilianyun\src\Api.php
  */
 
 namespace Eykj\Yilinayun;
@@ -36,23 +36,34 @@ class Printer
      * @param {*} $param
      * @return {*}
      */
-    public function addprinter($param)
+    public function printer_addprinter($param)
     {
-        $access_token = $this->Service->get_access_token($param);
-        $uuid = $this->Service->get_uuid4($param);
         $timestamp = time();
-        $sign = md5(env('YILIANYUN_CLIENT_ID') . $timestamp . env('YILIANYUN_CLIENT_SECRET'));
-        $data = array("client_id" => $param->client_id, "machine_code" => $param->machine_code, "msign" => $param->msign, "access_token" => $access_token, "sign" => $sign, "id" => $uuid, "timestamp" => $timestamp, "print_name" => $param->print_name);
-
-        $timestamp = time();
-        $data = eyc_array_key($param, 'machine_code,print_name');
+        $data = eyc_array_key($param, 'machine_code,msign,print_name');
         $data['id'] = $this->Service->get_uuid4($param);
         $data['sign'] = md5(env('YILIANYUN_CLIENT_ID') . $timestamp . env('YILIANYUN_CLIENT_SECRET'));
         $data['timestamp'] = $timestamp;
         $data['client_id'] = env('YILIANYUN_CLIENT_ID');
         $data['access_token'] = $this->Service->get_access_token($param);
-
-
         return $this->GuzzleHttp->post($this->url . "/printer/addprinter", $data);
+    }
+
+
+    /**
+     * @author: 布尔
+     * @name: 文本打印
+     * @param {*} $param
+     * @return {*}
+     */
+    public function print_index($param)
+    {
+        $timestamp = time();
+        $data = eyc_array_key($param, 'machine_code,content,origin_id');
+        $data['id'] = $this->Service->get_uuid4($param);
+        $data['sign'] = md5(env('YILIANYUN_CLIENT_ID') . $timestamp . env('YILIANYUN_CLIENT_SECRET'));
+        $data['timestamp'] = $timestamp;
+        $data['client_id'] = env('YILIANYUN_CLIENT_ID');
+        $data['access_token'] = $this->Service->get_access_token($param);
+        return $this->GuzzleHttp->post($this->url . "/print/index", $data);
     }
 }
