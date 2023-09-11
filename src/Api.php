@@ -3,11 +3,11 @@
  * @author: 布尔
  * @name: 接口类
  * @desc: 介绍
- * @LastEditTime: 2023-09-11 20:31:23
+ * @LastEditTime: 2023-09-11 20:41:45
  * @FilePath: \yilianyun\src\Api.php
  */
 
-namespace Eykj\Yilinayun;
+namespace Eykj\Yilianyun;
 
 use Eykj\Base\GuzzleHttp;
 use Eykj\Yilinayun\Service;
