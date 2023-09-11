@@ -1,0 +1,19 @@
+{
+    "name": "eykj/yilianyun",
+    "description": "一一科技易联云组件",
+    "license": "MIT",
+    "keywords": [
+        "eykj",
+        "yilianyun"
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Eykj\\Yilianyun\\": "src/"
+        },
+        "files": []
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
