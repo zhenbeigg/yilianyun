@@ -11,7 +11,7 @@ namespace Eykj\Yilianyun;
 
 use Eykj\Base\GuzzleHttp;
 
-class Xzqh
+class Service
 {
     protected ?GuzzleHttp $GuzzleHttp;
 

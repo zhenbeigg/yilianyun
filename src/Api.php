@@ -12,7 +12,7 @@ namespace Eykj\Yilinayun;
 use Eykj\Base\GuzzleHttp;
 use Eykj\Yilinayun\Service;
 
-class Printer
+class Api
 {
     protected ?GuzzleHttp $GuzzleHttp;
 
