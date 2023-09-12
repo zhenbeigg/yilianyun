@@ -25,7 +25,12 @@ class Service
      */
     protected $url = 'https://open-api.10ss.net';
 
-
+    /**
+     * @author: 布尔
+     * @name: 获取token
+     * @param {*} $param
+     * @return {*}
+     */
     public function get_access_token($param)
     {
         if (!redis()->get($param->client_id . "_yilianyun_access_token")) {
@@ -43,17 +48,10 @@ class Service
         }
         return $access_token;
     }
-    /**
-     * @Author: 布尔
-     * @name: 获取uuid
-     * @Date: 2021-02-23 16:07:33
-     * @account: public
-     * @param {*} $param
-     * @return {*}
-     */
+
     /**
      * @author: 布尔
-     * @name: 方法名
+     * @name: 获取uuid
      * @param {*} $param
      * @return {*}
      */
