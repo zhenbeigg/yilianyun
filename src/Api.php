@@ -3,7 +3,7 @@
  * @author: 布尔
  * @name: 接口类
  * @desc: 介绍
- * @LastEditTime: 2023-09-12 17:47:32
+ * @LastEditTime: 2023-09-13 16:07:44
  * @FilePath: \yilianyun\src\Api.php
  */
 
@@ -11,6 +11,7 @@ namespace Eykj\Yilianyun;
 
 use Eykj\Base\GuzzleHttp;
 use Eykj\Yilianyun\Service;
+use function Hyperf\Support\env;
 
 class Api
 {

@@ -10,6 +10,7 @@
 namespace Eykj\Yilianyun;
 
 use Eykj\Base\GuzzleHttp;
+use function Hyperf\Support\env;
 
 class Service
 {
