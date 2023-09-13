@@ -34,21 +34,21 @@ class Service
      */
     public function get_access_token($param)
     {
-        if (!redis()->get($param->client_id . "_yilianyun_access_token")) {
+        if (!redis()->get($param['client_id'] . "_yilianyun_access_token")) {
             $timestamp = time();
             $data = array("grant_type" => "client_credentials", "scope" => "all", "timestamp" => $timestamp, "client_id" => env('YILIANYUN_CLIENT_ID'), "sign" => md5(env('YILIANYUN_CLIENT_ID') . $timestamp . env('YILIANYUN_CLIENT_SECRET')), "id" => $this->get_uuid4($param));
             $rs = $this->GuzzleHttp->post($this->url . "/oauth/oauth", $data);
             if ($rs["error"] == 0) {
                 /* 判断是不是设备中心服务 */
                 if (env('APP_NAME', '') != 'eyc3_device') {
-                    redis()->set($param->client_id . "_yilianyun_access_token", $rs['body']["access_token"], $rs['body']["expires_in"]);
+                    redis()->set($param['client_id'] . "_yilianyun_access_token", $rs['body']["access_token"], $rs['body']["expires_in"]);
                 }
                 $access_token = $rs['body']["access_token"];
             } else {
                 error($rs["error"], $rs["error_description"]);
             }
         } else {
-            $access_token = redis()->get($param->client_id . "_yilianyun_access_token");
+            $access_token = redis()->get($param['client_id'] . "_yilianyun_access_token");
         }
         return $access_token;
     }
