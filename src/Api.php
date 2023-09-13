@@ -40,7 +40,7 @@ class Api
     public function printer_addprinter($param)
     {
         $timestamp = time();
-        $data = eyc_array_key($param, 'machine_code,msign,print_name');
+        $data = eyc_array_key($param, 'machine_code|deviceSn,msign,print_name');
         $data['id'] = $this->Service->get_uuid4($param);
         $data['sign'] = md5(env('YILIANYUN_CLIENT_ID') . $timestamp . env('YILIANYUN_CLIENT_SECRET'));
         $data['timestamp'] = $timestamp;
@@ -59,7 +59,7 @@ class Api
     public function print_index($param)
     {
         $timestamp = time();
-        $data = eyc_array_key($param, 'machine_code,content,origin_id');
+        $data = eyc_array_key($param, 'machine_code|deviceSn,content,origin_id');
         $data['id'] = $this->Service->get_uuid4($param);
         $data['sign'] = md5(env('YILIANYUN_CLIENT_ID') . $timestamp . env('YILIANYUN_CLIENT_SECRET'));
         $data['timestamp'] = $timestamp;
