@@ -39,10 +39,7 @@ class Service
             $data = array("grant_type" => "client_credentials", "scope" => "all", "timestamp" => $timestamp, "client_id" => env('YILIANYUN_CLIENT_ID'), "sign" => md5(env('YILIANYUN_CLIENT_ID') . $timestamp . env('YILIANYUN_CLIENT_SECRET')), "id" => $this->get_uuid4($param));
             $rs = $this->GuzzleHttp->post($this->url . "/oauth/oauth", $data);
             if ($rs["error"] == 0) {
-                /* 判断是不是要存token */
-                if (!isset($param['no_set_token'])) {
-                    redis()->set("yilianyun_access_token", $rs['body']["access_token"], $rs['body']["expires_in"]);
-                }
+                redis()->set("yilianyun_access_token", $rs['body']["access_token"], $rs['body']["expires_in"]);
                 $access_token = $rs['body']["access_token"];
             } else {
                 error($rs["error"], $rs["error_description"]);
